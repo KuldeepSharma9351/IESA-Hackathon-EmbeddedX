@@ -149,4 +149,42 @@ Confusion matrix analysis reveals strong diagonal dominance for both GoogLeNet a
 Minor misclassifications were observed mainly between visually similar defect classes such as **CMSC_Scuff**, **Clean_Spot**, and **Cracks**.
 
 **Particle_Contamination**, being the dominant class, was classified with near-perfect precision and recall across all models.
+---
+
+## 7. Confusion Matrix Visual Analysis
+
+### 7.1 Confusion Matrix for Baseline CNN Models
+
+![GoogLeNet Confusion Matrix](result_images/googleNet_confusion_matrix.jpeg)
+
+![MobileNetV2 Confusion Matrix](result_images/MobileNetV2_confusion_matrix.jpeg)
+
+The confusion matrices of the baseline CNN models (MobileNetV2, GoogLeNet, and CNN-only SqueezeNet) show a strong dominance along the main diagonal, indicating that the majority of samples are correctly classified. This confirms that the models successfully learn discriminative spatial features from SEM images.
+
+However, minor misclassifications are observed between visually similar defect categories, such as:
+
+- CMSC_Scuff and Clean_Spot  
+- Cracks and Mixed  
+- good and minor surface defect classes  
+
+These errors are expected in SEM-based inspection due to subtle texture variations and overlapping morphological characteristics between certain defect types.
+
+The **Particle_Contamination** class exhibits near-perfect classification across all baseline models, primarily due to its larger sample size and distinct visual features, resulting in very high precision and recall.
+
+---
+
+### 7.2 Confusion Matrix for Hybrid SqueezeNet + SVM Model
+
+![Hybrid SqueezeNet + SVM Confusion Matrix](result_images/hybrid_confusion_matrix.png)
+
+The confusion matrix of the hybrid SqueezeNet + SVM model shows the strongest diagonal dominance among all evaluated approaches, indicating near-perfect classification performance across the 10 defect classes.
+
+Compared to softmax-based classifiers, the SVM improves decision boundaries in the high-dimensional feature space, leading to:
+
+- Further reduction in inter-class confusion  
+- Improved robustness for visually overlapping defect types  
+- Consistent performance across both majority and minority classes  
+
+Only a negligible number of misclassifications are observed, confirming that the hybrid approach effectively enhances feature discrimination while maintaining computational efficiency.
+
 
