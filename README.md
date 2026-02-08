@@ -1,1 +1,131 @@
-.🔬 Hybrid SqueezeNet + SVM for SEM Wafer Defect ClassificationTeam Name: EMBEDDEDX Event: IESA DeepTech Hackathon 📖 Project OverviewThis project introduces a Hybrid CNN + SVM architecture for the automatic classification of semiconductor wafer defects using Scanning Electron Microscope (SEM) images. Manual inspection is slow and non-scalable; our solution replaces the standard Softmax classifier with a Support Vector Machine (SVM) to achieve higher accuracy and better decision boundaries in high-dimensional feature spaces.Key FeaturesLightweight Architecture: Uses SqueezeNet as a feature extractor, chosen for its extremely low parameter count and memory footprint.Robust Classification: Replaces the final layer with an SVM to improve the handling of visually overlapping defect classes.Edge-Ready: High-accuracy results paired with low inference time, making it ideal for real-time edge-based inspection.High Performance: Achieves 98.99% Accuracy and a ≈0.99 F1-Score.📊 Model Comparison & ResultsWe evaluated multiple architectures to find the optimal balance between accuracy and deployment feasibility.Model ArchitectureAccuracy (%)Key CharacteristicsAlexNet~92.0Large parameter count, lower generalization EfficientNet-B0~98.0High accuracy, computationally heavier MobileNetV297.99Lightweight, fast inference GoogLeNet98.10Strong feature extraction, higher complexity Hybrid SqueezeNet + SVM98.99Strongest performance & deployment-friendly Why SqueezeNet + SVM? While GoogLeNet had high raw accuracy, SqueezeNet’s Fire module architecture enables efficient feature reuse with a much smaller footprint. By using SqueezeNet for feature extraction and an SVM for classification, we successfully closed the performance gap while maintaining efficiency.📂 Dataset DetailsSource: Grayscale SEM Wafer Defect Dataset.Class Refinement: Reduced from 11 to 10 classes by removing the unstable Ring_Heavy Spot class to improve generalization.Final Classes: CMSC_Scuff, Clean, Clean_Spot, Cmp, Cracks, Mixed, Particle_Contamination, Scratch, good, and pits_voids.Preprocessing: Images were converted to single-channel grayscale, resized to 224 × 224 pixels, and normalized.🛠️ MethodologyInitial Benchmarking: Evaluating CNNs (AlexNet, EfficientNet, etc.) using transfer learning with ImageNet-pretrained weights.Model Selection: Choosing SqueezeNet as the base for its engineering-driven benefits, such as low parameter count and fast inference.Optimization: Performing epoch-wise tuning, identifying 30 epochs as the optimal training duration.Hybrid Integration: Stripping the Softmax layer and feeding the feature vectors into an SVM for the final prediction.📈 Visual AnalysisBaseline ComparisonsBaseline models show strong diagonal dominance, though minor misclassifications persist between visually similar categories like CMSC_Scuff and Clean_Spot.GoogLeNet baseline results. MobileNetV2 baseline results. Hybrid SqueezeNet + SVMThe hybrid approach shows the strongest diagonal dominance, confirming that the SVM effectively enhances feature discrimination while maintaining efficiency.Optimized Hybrid SqueezeNet + SVM results. 
+# 🧠 SEM Wafer Defect Detection – Detailed Results and Analysis  
+
+This repository presents a comprehensive experimental study on **automatic classification of semiconductor wafer defects using Scanning Electron Microscope (SEM) images**.  
+
+Multiple deep learning architectures were evaluated under a unified preprocessing and training framework. Further optimization was performed using **epoch-wise training** and a **hybrid CNN–SVM approach** to improve classification robustness and generalization.
+
+---
+
+## 📌 Objective  
+
+To design a **high-accuracy, lightweight, and deployment-efficient SEM wafer defect classification system** by following a systematic, multi-stage experimental workflow rather than directly optimizing a single model.
+
+This methodology ensures that the final model choice is:
+
+- Data-driven  
+- Explainable  
+- Experimentally justified  
+- Suitable for hackathon and real-world deployment  
+
+---
+
+## 🔁 Overall Experimental Workflow  
+
+The complete workflow consists of the following stages:
+
+1. Initial benchmarking of multiple CNN architectures  
+2. Comparative evaluation using a fixed dataset and common metrics  
+3. Model selection based on accuracy–efficiency trade-off  
+4. Class refinement to address imbalance  
+5. Epoch-wise optimization  
+6. Hybrid CNN–SVM enhancement  
+
+This step-by-step pipeline ensures **fairness, reproducibility, and transparency**.
+
+---
+
+## 📂 Dataset and Preprocessing  
+
+The SEM wafer dataset consists of grayscale SEM images representing various wafer defect and non-defect patterns.
+
+### 🔹 Original Classes (11)
+
+- CMSC_Scuff  
+- Clean  
+- Clean_Spot  
+- Cmp  
+- Cracks  
+- Mixed  
+- Particle_Contamination  
+- Ring_Heavy Spot  
+- Scratch  
+- good  
+- pits_voids  
+
+### 🔹 Preprocessing Steps
+
+- Converted to **single-channel grayscale**  
+- Resized to **224 × 224 pixels**  
+- Pixel value **normalization**
+
+### 🔹 Data Augmentation
+
+Applied during training:
+
+- Horizontal & vertical flipping  
+- Rotation  
+- Affine transformations  
+- Color jittering  
+
+> The same preprocessing and augmentation pipeline was used for all models to ensure a fair comparison.
+
+---
+
+## 🧪 Initial Model Benchmarking (11-Class Setup)
+
+### Models Evaluated
+
+All models used **transfer learning** with ImageNet-pretrained weights adapted for grayscale input:
+
+- AlexNet  
+- EfficientNet-B0  
+- MobileNetV2  
+- GoogLeNet (Inception v1)  
+- SqueezeNet (CNN-only)  
+
+**Weighted Cross-Entropy Loss** was used to mitigate class imbalance.
+
+---
+
+## 📊 Performance Comparison
+
+| Model | Accuracy (%) | Key Characteristics |
+|------|--------------|-------------------|
+| AlexNet | ~92.0 | Older architecture, large parameter count |
+| EfficientNet-B0 | ~98.0 | High accuracy, heavier computation |
+| MobileNetV2 | 97.99 | Lightweight, fast inference |
+| GoogLeNet | 98.10 | Strong feature extraction |
+| SqueezeNet (CNN-only) | 95.97 | Extremely small model |
+
+---
+
+## 🔍 Observations
+
+- AlexNet shows weakest performance due to outdated design.  
+- EfficientNet-B0 offers excellent accuracy but higher computational cost.  
+- GoogLeNet achieves best pure CNN accuracy.  
+- MobileNetV2 provides an **excellent balance between accuracy and speed**.  
+- SqueezeNet stands out for **extreme parameter efficiency**, making it ideal for further optimization.
+
+---
+
+## ⭐ Conclusion (Stage 1)
+
+SqueezeNet and MobileNetV2 were selected as **primary candidates for advanced optimization** due to their:
+
+- High efficiency  
+- Low memory footprint  
+- Suitability for edge deployment  
+
+Subsequent stages focus on:
+
+- Epoch-wise tuning  
+- Class refinement  
+- Hybrid CNN–SVM integration  
+
+---
+
+## 📁 Results Visualization
+
+Confusion matrices and evaluation plots are stored inside:
+
