@@ -87,3 +87,66 @@ Weighted cross-entropy loss was used to address class imbalance, and all models 
 - MobileNetV2 demonstrated an excellent balance between accuracy and inference speed.  
 
 - SqueezeNet, although slightly lower in baseline accuracy, stood out due to its extreme parameter efficiency and very low memory footprint, making it an ideal candidate for further optimization.
+- ---
+
+## 4. Rationale for Selecting SqueezeNet
+
+Rather than selecting the model with the highest raw accuracy, SqueezeNet was chosen for refinement based on engineering-driven considerations:
+
+- Very low parameter count (deployment-friendly)  
+- Faster inference compared to deeper CNNs  
+- Fire module architecture enables efficient feature reuse  
+- Suitable for edge devices and real-time inspection systems  
+- Performance gap could potentially be closed through optimization  
+
+Thus, SqueezeNet was selected as the base architecture, not the final model at this stage.
+
+---
+
+## 5. Class Refinement and Epoch-wise SqueezeNet Training (10 Classes)
+
+During further experimentation, the ‘cmp’ class was removed from the dataset, reducing the total number of classes from 11 to 10. This class contained very few samples and caused instability in validation accuracy due to severe class imbalance. Removing this class resulted in more stable convergence and improved generalization.
+
+### Epoch-wise Performance
+
+| Model | Epochs | Classes | Test Accuracy (%) |
+|-----|-------|--------|------------------|
+| SqueezeNet | 20 | 10 | 98.54 |
+| SqueezeNet | 30 | 10 | 98.99 |
+| SqueezeNet | 50 | 10 | 98.09 |
+
+The 30-epoch SqueezeNet model achieved the highest accuracy, indicating optimal training duration. Lower epoch counts resulted in underfitting, while higher epoch counts led to mild overfitting.
+
+---
+
+## 7. Hybrid SqueezeNet + SVM Enhancement
+
+To further improve classification robustness, the softmax classifier of the optimized SqueezeNet (30 epochs) was replaced with a Support Vector Machine (SVM). In this hybrid architecture:
+
+- SqueezeNet acts as a fixed deep feature extractor  
+- The SVM performs final classification using margin-based decision boundaries  
+
+### Why SVM?
+
+- Better margin maximization  
+- Stronger decision boundaries in high-dimensional feature space  
+- Improved handling of visually overlapping defect classes  
+
+### Hybrid Model Performance
+
+| Accuracy (%) | Precision (%) | Recall (%) | F1-score (%) | MCC | Classes |
+|-------------|--------------|------------|--------------|-----|--------|
+| 98.99 | ≈99 | ≈99 | ≈99 | ≈0.99 | 10 |
+
+This hybrid approach successfully closes the performance gap between compact and heavy CNN models.
+
+---
+
+## 6. Confusion Matrix Analysis
+
+Confusion matrix analysis reveals strong diagonal dominance for both GoogLeNet and the hybrid SqueezeNet + SVM model, indicating correct classification for the majority of samples.
+
+Minor misclassifications were observed mainly between visually similar defect classes such as **CMSC_Scuff**, **Clean_Spot**, and **Cracks**.
+
+**Particle_Contamination**, being the dominant class, was classified with near-perfect precision and recall across all models.
+
