@@ -187,4 +187,5 @@ Compared to softmax-based classifiers, the SVM improves decision boundaries in t
 
 Only a negligible number of misclassifications are observed, confirming that the hybrid approach effectively enhances feature discrimination while maintaining computational efficiency.
 
-
+## Documentation Update
+Minor improvements to formatting and readability of the README for better clarity.
